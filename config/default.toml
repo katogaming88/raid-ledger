@@ -1,0 +1,25 @@
+[guild]
+name = ""
+region = "us"
+realm = ""
+
+[collection]
+hours_after_reset = 3
+request_delay_seconds = 0.5
+max_retries = 3
+timeout_seconds = 10
+collect_statuses = ["core", "trial"]
+
+[benchmarks]
+# Seed values for first-run only. Officers must review and adjust via Settings page.
+default_min_mplus_runs = 8
+default_min_key_level = 10
+default_min_vault_slots = 3
+
+[analysis]
+chronic_fail_threshold = 3
+chronic_lookback_weeks = 5
+streak_warning_threshold = 2
+
+[raiderio]
+base_url = "https://raider.io/api/v1"
