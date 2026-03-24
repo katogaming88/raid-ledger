@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] — 2026-03-23
+
+**Milestone M2: Raider.io Client**
+
+### Added
+
+- Async Raider.io API client (`raid_ledger/api/raiderio.py`) with two endpoints:
+  - `fetch_character()` — weekly M+ runs, ilvl, and score via `mythic_plus_previous_weekly_highest_level_runs`
+  - `fetch_guild_members()` — full guild roster for import (name, realm, class, spec, role, rank)
+- `CharacterData` and `GuildMember` dataclasses for typed API responses
+- `CharacterNotFoundError`, `GuildNotFoundError`, `ParseError` exceptions
+- Exponential backoff on 429 rate limits, configurable retry on timeouts
+- Role normalization (HEALING -> healer, TANK -> tank, DPS -> dps)
+- `CharacterData.count_runs_at_level(min_key)` helper for threshold evaluation
+- JSON test fixtures: character (full, empty runs, partial fields), guild (14 members across 6 ranks)
+- 15 new tests via respx mocks: success parsing, 404/429/timeout handling, malformed JSON, role mapping
+
 ## [0.2.0] — 2026-03-23
 
 **Milestone M1: Models + DB**

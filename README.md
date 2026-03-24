@@ -60,7 +60,8 @@ raid_ledger/
 │   ├── connection.py     # SQLAlchemy engine + session factory
 │   ├── schema.py         # ORM tables (6 tables + indexes)
 │   └── repositories.py   # CRUD repos returning Pydantic models
-├── api/                  # Raider.io HTTP client (M2)
+├── api/
+│   └── raiderio.py      # Raider.io HTTP client (character + guild endpoints)
 ├── engine/               # Rules engine + collector + analyzer (M3-M4)
 └── cli.py                # Typer CLI (M7)
 ```
@@ -72,6 +73,21 @@ Six tables: `players`, `weekly_benchmarks`, `weekly_snapshots`, `officer_notes`,
 - SQLite for local development (zero config)
 - PostgreSQL (Supabase) for production via `DATABASE_URL` env var
 - All foreign keys use `ON DELETE RESTRICT` — players are deactivated, never deleted
+
+## Raider.io API
+
+The client fetches data from two Raider.io endpoints (free, no auth required, 200 req/min):
+
+**Character profile** — weekly M+ data for collection:
+- `mythic_plus_previous_weekly_highest_level_runs` — finalized runs from the completed week
+- `gear.item_level_equipped` — ilvl snapshot
+- `mythic_plus_scores_by_season` — M+ score
+
+**Guild profile** — roster import:
+- Returns all guild members with name, realm, class, spec, role, and rank
+- Officers select active raiders from the full member list
+
+Collection runs Tuesday evening (3 hours after US reset) to ensure data is finalized. The client uses exponential backoff on 429 rate limits and retries on timeouts.
 
 ## Configuration
 
