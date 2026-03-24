@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] — 2026-03-23
+
+**Milestone M4: Analyzer**
+
+### Added
+
+- Failure analyzer (`raid_ledger/engine/analyzer.py`) with 7 pattern detection queries:
+  - `get_weekly_summary` — all players' pass/fail/flag for a week, joined with player info, sorted flags-first
+  - `get_player_history` — per-player timeline with parsed reasons
+  - `get_failure_rate` — "failed X of last N" with flag exclusion and short-history respect
+  - `get_chronic_underperformers` — roster-wide chronic failure detection (configurable threshold/lookback)
+  - `get_current_streaks` — consecutive pass/fail streak per active player
+  - `get_failure_breakdown` — count by failure reason for a week
+  - `get_trial_flags` — trial players with any failures in their first N weeks
+- Result dataclasses: `PlayerWeekSummary`, `FailureRate`, `PlayerStreak`
+- 29 new tests with seeded 6-player x 8-week dataset covering all queries and edge cases
+
 ## [0.4.1] — 2026-03-23
 
 ### Fixed

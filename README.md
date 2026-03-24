@@ -64,7 +64,8 @@ raid_ledger/
 │   └── raiderio.py      # Raider.io HTTP client (character + guild endpoints)
 ├── engine/
 │   ├── rules.py          # 3-state evaluation (pass/fail/flag), OR logic
-│   └── collector.py      # Weekly collection orchestrator
+│   ├── collector.py      # Weekly collection orchestrator
+│   └── analyzer.py       # Pattern detection (chronic failures, streaks)
 scripts/
 └── collect_weekly.py     # Entry point for cron + manual collection
 ```
@@ -119,6 +120,22 @@ Vault slots are derived from M+ count: 1/4/8 runs = 1/2/3 slots.
 python scripts/collect_weekly.py                    # current week
 python scripts/collect_weekly.py --week 2026-03-17  # specific week
 ```
+
+## Analysis
+
+The analyzer detects failure patterns across weeks. All thresholds are configurable parameters.
+
+| Query | Description |
+|-------|-------------|
+| `get_weekly_summary(week_of)` | All players' pass/fail/flag for a week, sorted flags-first |
+| `get_player_history(player_id, weeks)` | Per-player timeline, most recent first |
+| `get_failure_rate(player_id, lookback)` | "Failed X of last N" — flags excluded, short history respected |
+| `get_chronic_underperformers(threshold, lookback)` | Active players who failed >= threshold of last N weeks |
+| `get_current_streaks()` | Consecutive pass/fail streak per active player |
+| `get_failure_breakdown(week_of)` | Count by failure reason for a week |
+| `get_trial_flags(lookback)` | Trial players with any failures in their first N weeks |
+
+Default thresholds (configurable via Settings): chronic = 3 failures in 5 weeks, streak warning at 2.
 
 ## Configuration
 
