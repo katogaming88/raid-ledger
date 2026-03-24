@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] — 2026-03-23
+
+**Milestone M5: Dashboard Views**
+
+### Added
+
+- Streamlit dashboard entrypoint (`dashboard/app.py`) with sidebar: officer name, week selector, status/role filters, pass rate metric
+- Password gate (`dashboard/auth.py`) via `st.secrets` (no secret = open access for local dev)
+- Cached data loader (`dashboard/data_loader.py`) wrapping analyzer and repository queries
+- Weekly Overview page: color-coded roster table (flags/fails/passes), CSV export, first-run onboarding card
+- Player Timeline page: 12-week heatmap strip, M+ score trend, per-week detail cards with reasons and officer notes
+- Status badge component: icons + text + color for WCAG 2.1 AA (never color alone)
+- Shared filter component for sidebar status/role filtering
+- 22 new tests: smoke imports, auth gate (4 scenarios), data loader (11 scenarios with empty DB coverage)
+
 ## [0.5.1] — 2026-03-23
 
 ### Fixed

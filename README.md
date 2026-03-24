@@ -66,6 +66,16 @@ raid_ledger/
 │   ├── rules.py          # 3-state evaluation (pass/fail/flag), OR logic
 │   ├── collector.py      # Weekly collection orchestrator
 │   └── analyzer.py       # Pattern detection (chronic failures, streaks)
+dashboard/
+├── app.py                # Streamlit entrypoint, sidebar, page navigation
+├── auth.py               # Password gate via st.secrets
+├── data_loader.py        # Cached query wrappers for dashboard pages
+├── pages/
+│   ├── weekly_overview.py # Color-coded roster table, CSV export, onboarding
+│   └── player_timeline.py # Per-player heatmap, detail cards, score trend
+└── components/
+    ├── status_badge.py    # Icons + text + color (WCAG: never color alone)
+    └── filters.py         # Shared sidebar filter logic
 scripts/
 └── collect_weekly.py     # Entry point for cron + manual collection
 ```
@@ -136,6 +146,15 @@ The analyzer detects failure patterns across weeks. All thresholds are configura
 | `get_trial_flags(lookback)` | Trial players with any failures in their first N weeks |
 
 Default thresholds (configurable via Settings): chronic = 3 failures in 5 weeks, streak warning at 2.
+
+## Dashboard
+
+Run locally with `streamlit run dashboard/app.py`. Password gate via `st.secrets` (no secret = open access for local dev).
+
+- **Weekly Overview**: Color-coded roster table (flags first, then fails, then passes). CSV export. First-run onboarding card when no data exists.
+- **Player Timeline**: Per-player 12-week heatmap strip, M+ score trend line, per-week detail cards with reasons and officer notes.
+
+All status indicators use icons + text + color (never color alone) for WCAG 2.1 AA compliance.
 
 ## Configuration
 
