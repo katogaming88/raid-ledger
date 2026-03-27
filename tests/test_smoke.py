@@ -40,6 +40,9 @@ class TestRaidLedgerImports:
             WowauditRosterMember,
         )
 
+    def test_utils(self):
+        from raid_ledger.utils import most_recent_tuesday  # noqa: F401
+
     def test_engine(self):
         from raid_ledger.engine import (  # noqa: F401
             EvaluationResult,
@@ -51,18 +54,24 @@ class TestRaidLedgerImports:
 
 
 class TestDashboardImports:
+    def test_async_helpers(self):
+        from dashboard.async_helpers import run_async  # noqa: F401
+
     def test_auth(self):
         from dashboard.auth import check_password  # noqa: F401
 
     def test_data_loader(self):
         from dashboard.data_loader import (  # noqa: F401
             get_active_players,
+            get_all_benchmarks,
             get_all_players,
             get_chronic_underperformers,
             get_collected_weeks,
+            get_collection_runs,
             get_current_streaks,
             get_failure_breakdown,
             get_failure_rate,
+            get_most_recent_benchmark,
             get_player_history,
             get_player_notes,
             get_weekly_summary,

@@ -46,6 +46,9 @@ session_factory = _init_db()
 if "db_session" not in st.session_state:
     st.session_state.db_session = session_factory()
 
+# Expose factory for pages that need fresh sessions (e.g., collection trigger)
+st.session_state.session_factory = session_factory
+
 
 def get_session():
     return st.session_state.db_session
@@ -135,6 +138,7 @@ weekly_overview = st.Page(
     "pages/weekly_overview.py", title="Weekly Overview", default=True,
 )
 player_timeline = st.Page("pages/player_timeline.py", title="Player Timeline")
+officer_tools = st.Page("pages/officer_tools.py", title="Officer Tools")
 
-pg = st.navigation([weekly_overview, player_timeline])
+pg = st.navigation([weekly_overview, player_timeline, officer_tools])
 pg.run()

@@ -75,6 +75,7 @@ raid_ledger/
 │   └── repositories.py   # CRUD repos returning Pydantic models
 ├── api/
 │   └── wowaudit.py      # Wowaudit HTTP client (batch roster + M+ data)
+├── utils.py              # Shared utilities (most_recent_tuesday)
 ├── engine/
 │   ├── rules.py          # 3-state evaluation (pass/fail/flag), OR logic
 │   ├── collector.py      # Weekly collection orchestrator (single batch fetch)
@@ -82,10 +83,12 @@ raid_ledger/
 dashboard/
 ├── app.py                # Streamlit entrypoint, sidebar, page navigation
 ├── auth.py               # Password gate via st.secrets
+├── async_helpers.py      # Async-to-sync wrapper for Streamlit
 ├── data_loader.py        # Cached query wrappers for dashboard pages
 ├── pages/
 │   ├── weekly_overview.py # Color-coded roster table, CSV export, onboarding
-│   └── player_timeline.py # Per-player heatmap, detail cards
+│   ├── player_timeline.py # Per-player heatmap, detail cards
+│   └── officer_tools.py   # Roster import, benchmarks, collection, notes
 └── components/
     ├── status_badge.py    # Icons + text + color (WCAG: never color alone)
     └── filters.py         # Shared sidebar filter logic
@@ -168,6 +171,7 @@ Run locally with `streamlit run dashboard/app.py`. Password gate via `st.secrets
 
 - **Weekly Overview**: Color-coded roster table (flags first, then fails, then passes). CSV export. First-run onboarding card when no data exists.
 - **Player Timeline**: Per-player 12-week heatmap strip, per-week detail cards with reasons and officer notes.
+- **Officer Tools**: Roster import from wowaudit, player status management, weekly benchmark editor, collection trigger with confirmation, officer notes.
 
 All status indicators use icons + text + color (never color alone) for WCAG 2.1 AA compliance.
 

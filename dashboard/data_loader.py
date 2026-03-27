@@ -1,7 +1,7 @@
-"""Cached data-loading functions for the dashboard.
+"""Data-loading functions for the dashboard.
 
-Wraps analyzer and repository queries with @st.cache_data so the
-dashboard doesn't re-query the DB on every page interaction.
+Wraps analyzer and repository queries for use by dashboard pages.
+Data is fresh on every page load (no Streamlit caching layer).
 """
 
 from __future__ import annotations
@@ -11,6 +11,8 @@ from datetime import date
 from sqlalchemy.orm import Session
 
 from raid_ledger.db.repositories import (
+    BenchmarkRepo,
+    CollectionRunRepo,
     NoteRepo,
     PlayerRepo,
 )
@@ -20,6 +22,7 @@ from raid_ledger.engine.analyzer import (
     PlayerStreak,
     PlayerWeekSummary,
 )
+from raid_ledger.models.benchmark import WeeklyBenchmark
 from raid_ledger.models.player import Player
 
 
@@ -105,3 +108,21 @@ def get_player_notes(
     if week_of is not None:
         return repo.get_by_player_week(player_id, week_of)
     return repo.get_by_player(player_id)
+
+
+def get_all_benchmarks(session: Session) -> list[WeeklyBenchmark]:
+    """All benchmarks, most recent week first."""
+    repo = BenchmarkRepo(session)
+    return repo.list_all()
+
+
+def get_most_recent_benchmark(session: Session) -> WeeklyBenchmark | None:
+    """Most recent benchmark, or None if none set."""
+    repo = BenchmarkRepo(session)
+    return repo.get_most_recent()
+
+
+def get_collection_runs(session: Session, week_of: date) -> list[dict]:
+    """Collection runs for a given week."""
+    repo = CollectionRunRepo(session)
+    return repo.get_by_week(week_of)

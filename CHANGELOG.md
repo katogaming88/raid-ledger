@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] — 2026-03-27
+
+**Milestone M7: Officer Tools**
+
+### Added
+
+- Officer Tools dashboard page with 5 tabs: Roster Import, Player Management, Benchmark Editor, Collection Trigger, Officer Notes
+- Roster Import: fetch roster from wowaudit API, preview characters, bulk import new players
+- Player Management: view all players, change status (core/trial/bench/inactive)
+- Benchmark Editor: set weekly benchmarks with form, view benchmark history
+- Collection Trigger: run weekly collection from the dashboard with confirmation dialog
+- Officer Notes: add notes to players (general or tied to specific week), view existing notes
+- `dashboard/async_helpers.py` — helper for running async code from Streamlit's sync context
+- `raid_ledger/utils.py` — shared `most_recent_tuesday()` utility
+- 18 new tests: roster import, player management, benchmarks, notes, collection trigger, utilities
+
 ## [0.7.0] — 2026-03-27
 
 ### Changed

@@ -342,9 +342,9 @@ class TestCollectorEdgeCases:
 
 class TestCollectWeeklyScript:
     def test_most_recent_tuesday(self):
-        from scripts.collect_weekly import _most_recent_tuesday
+        from raid_ledger.utils import most_recent_tuesday
 
-        assert _most_recent_tuesday(date(2026, 3, 17)) == date(2026, 3, 17)
-        assert _most_recent_tuesday(date(2026, 3, 18)) == date(2026, 3, 17)
-        assert _most_recent_tuesday(date(2026, 3, 23)) == date(2026, 3, 17)
-        assert _most_recent_tuesday(date(2026, 3, 22)) == date(2026, 3, 17)
+        assert most_recent_tuesday(date(2026, 3, 17)) == date(2026, 3, 17)
+        assert most_recent_tuesday(date(2026, 3, 18)) == date(2026, 3, 17)
+        assert most_recent_tuesday(date(2026, 3, 23)) == date(2026, 3, 17)
+        assert most_recent_tuesday(date(2026, 3, 22)) == date(2026, 3, 17)

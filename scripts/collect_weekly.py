@@ -12,25 +12,19 @@ import argparse
 import asyncio
 import logging
 import sys
-from datetime import date, timedelta
+from datetime import date
 
 from raid_ledger.api.wowaudit import WowauditClient
 from raid_ledger.config import load_config
 from raid_ledger.db.connection import get_engine, get_session_factory, init_db
 from raid_ledger.engine.collector import NoBenchmarkError, WeeklyCollector
+from raid_ledger.utils import most_recent_tuesday
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
 )
 logger = logging.getLogger(__name__)
-
-
-def _most_recent_tuesday(today: date | None = None) -> date:
-    """Return the most recent Tuesday (including today if it's Tuesday)."""
-    d = today or date.today()
-    days_since_tuesday = (d.weekday() - 1) % 7
-    return d - timedelta(days=days_since_tuesday)
 
 
 async def _run(week_of: date) -> None:
@@ -73,7 +67,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    week_of = args.week or _most_recent_tuesday()
+    week_of = args.week or most_recent_tuesday()
     logger.info("Collecting for week of %s", week_of)
 
     asyncio.run(_run(week_of))
